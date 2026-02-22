@@ -969,17 +969,21 @@ void RoutingTablePanel::PopulateTable() {
       }
 
       if (!std::isnan(apparentWindAngle)) {
-        // Color the AWA cell: green for starboard tack, red for port tack
-        bool isStarboardTack =
-            (apparentWindAngle > 0 && apparentWindAngle < 180);
-        wxColor awaColor =
-            isStarboardTack ? wxColour(0, 255, 0) : wxColour(255, 0, 0);
-        setCellWithColor(row, COL_AWA,
-                         wxString::Format("%.0f\u00B0", apparentWindAngle),
-                         awaColor);
-        wxGridCellAttr* attr = new wxGridCellAttr();
-        attr->SetTextColour(GetTextColorForBackground(awaColor));
-        m_gridWeatherTable->SetAttr(row, COL_AWA, attr);
+       
+         // 2. Set the Value
+        wxString label = wxString::Format(" %.0f\u00B0", apparentWindAngle);
+        m_gridWeatherTable->SetCellValue(row, COL_AWA, label);
+
+        // 3. Force Background to White
+        m_gridWeatherTable->SetCellBackgroundColour(row, COL_AWA, *wxWHITE);
+
+        // 4. Force Text Color based on direction
+        if (apparentWindAngle < 0) {
+            m_gridWeatherTable->SetCellTextColour(row, COL_AWA, *wxRED);   // Port
+        } else {
+            m_gridWeatherTable->SetCellTextColour(row, COL_AWA, *wxGREEN); // Starboard
+        }
+        
       }
     }
 

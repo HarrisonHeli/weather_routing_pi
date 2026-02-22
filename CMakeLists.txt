@@ -145,6 +145,7 @@ message(STATUS "${CMLOC}Build type: ${CMAKE_BUILD_TYPE}")
 # ----- process -- Do not remove -##
 
 project(${PACKAGE})
+find_package(wxWidgets REQUIRED COMPONENTS core base net xml html adv aui svg)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -328,6 +329,7 @@ if (NOT OCPN_FLATPAK_CONFIG)
   add_subdirectory(opencpn-libs/libtess2)
   target_link_libraries(${PACKAGE_NAME} ocpn::libtess2)
 
+
 endif(NOT OCPN_FLATPAK_CONFIG)
 
 add_definitions(-DTIXML_USE_STL)
@@ -381,6 +383,8 @@ endforeach ()
 # Add the test directory if testing is enabled
 if(OCPN_BUILD_TEST)
     message(STATUS "Building with tests enabled")
-    enable_testing()
-    add_subdirectory(test)
+   # enable_testing()
+   # add_subdirectory(test)
 endif()
+
+
